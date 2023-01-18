@@ -14,4 +14,4 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_KANO_KALENDER_44CE5 }}'
-          projectId: kano-kalender-44ce5
+          projectId: hdkanos

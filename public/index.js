@@ -1,20 +1,16 @@
 /*
 Version 1: Kan vise nuværende måned og har strukturen af en kalender.
-Version 2:
+Version 2: Kan vise flere måneder, DDS farve skema, Ændre formatering til være mere google kalender agtig
 
 
 Mangler:
-Kan vise flere måneder.
-Ændre formatering til være mere google kalender agtig.
 Der skulle kunne reserveres kanoer.
 Hjemmesiden skal rappotere til databasen og vice versa.
 Der skal sættes et system om til at slette data i databasen.
 */
 
-
-
-
-window.onload = maxWindow;
+window.onload = window.resizeTo(window.screen.availWidth / 2, window.screen.availHeight / 2);
+window.onload = cleanup();
 const date = new Date();
 var observedMonth = date.getMonth();
 var observedYear = date.getFullYear();
@@ -31,21 +27,6 @@ function setCurrentDate(date, day) {
 
     document.getElementById("year").innerHTML = year;
     document.getElementById("month").innerHTML = month;
-}
-
-function maxWindow() {
-    window.moveTo(0, 0);
-
-    if (document.all) {
-        top.window.resizeTo(screen.availWidth, screen.availHeight);
-    }
-
-    else if (document.layers || document.getElementById) {
-        if (top.window.outerHeight < screen.availHeight || top.window.outerWidth < screen.availWidth) {
-            top.window.outerHeight = screen.availHeight;
-            top.window.outerWidth = screen.availWidth;
-        }
-    }
 }
 
 function monthTranslator(number) {
@@ -108,37 +89,89 @@ function daysInMonth (month) {
 
 function sortDays(month, year, numberWeekdays) {
 
-
-    var dateString = (month + 1) + "/1/" + year;
-    var date = new Date(dateString);
-    var startDay = date.toLocaleDateString("en-GB", { weekday: 'long' });
+    let dateString = (month + 1) + "/1/" + year;
+    let date = new Date(dateString);
+    let startDay = date.toLocaleDateString("en-GB", { weekday: 'long' });
+    let startNumber;
 
     switch(startDay) {
-        case "Monday": var startNumber = 0;
+        case "Monday": startNumber = 0;
         break;
-        case "Tuesday": var startNumber = 1;
+        case "Tuesday": startNumber = 1;
         break;
-        case "Wedensday": var startNumber = 2;
+        case "Wednesday": startNumber = 2;
         break;
-        case "Thursday": var startNumber = 3;
+        case "Thursday": startNumber = 3;
         break;
-        case "Friday": var startNumber = 4;
+        case "Friday": startNumber = 4;
         break;
-        case "Saturday": var startNumber = 5;
+        case "Saturday": startNumber = 5;
         break;
-        case "Sunday": var startNumber = 6;
+        case "Sunday": startNumber = 6;
         break;
     }
-    
-    var currentDate = new Date();
-    var currentDay = currentDate.getDate();
-    var currentMonth = currentDate.getMonth();
-    var currentYear = currentDate.getFullYear();
+
+    let currentDate = new Date();
+    let currentDay = currentDate.getDate();
+    let currentMonth = currentDate.getMonth();
+    let currentYear = currentDate.getFullYear();
 
     for(let i = 1; i <= numberWeekdays; i++){
         document.getElementById("Day" + (i + startNumber)).innerHTML = i;
-        if((currentDay == i) & (currentMonth == month) & (currentYear == year)){
-            document.getElementById("Day" + (i + startNumber)).classList.add('active');
+        document.getElementById("Day" + (i + startNumber)).style.visibility = "visible";
+        if((currentDay == i) && (currentMonth == month) && (currentYear == year)){
+            document.getElementById("Day" + (i + startNumber)).classList.add('current');
         }
     }
+}
+
+function cleanup() {
+    for(let i=1; i<=37; i++){
+        document.getElementById("Day" + i).innerHTML = 1;
+        document.getElementById("Day" + i).classList.remove('current');
+        document.getElementById("Day" + i).style.visibility = "hidden";
+    }
+}
+
+function forward() {
+    cleanup();
+
+    if(observedMonth == 11){
+        observedMonth = 0;
+        observedYear++;
+    } else {
+        observedMonth++;
+    }
+
+    numberWeekdays = daysInMonth(observedMonth);
+    sortDays(observedMonth, observedYear, numberWeekdays);
+    document.getElementById("year").innerHTML = observedYear;
+    document.getElementById("month").innerHTML = monthTranslator(observedMonth);
+}
+
+function backward() {
+    cleanup();
+    
+    if(observedMonth == 0){
+        observedMonth = 11;
+        observedYear--;
+    } else {
+        observedMonth--;
+    }
+
+    numberWeekdays = daysInMonth(observedMonth);
+    sortDays(observedMonth, observedYear, numberWeekdays);
+    document.getElementById("year").innerHTML = observedYear;
+    document.getElementById("month").innerHTML = monthTranslator(observedMonth);
+}
+
+function reserver(nummer) {
+    console.log("Du der " + nummer);
+    //let reserved = document.getElementById("R" + nummer).value;
+
+    //if(reserved == 1){
+        // Pop up med password for at ændre
+    //} else {
+        // Pop up med de fire oplysninger for at huske
+    //}
 }
