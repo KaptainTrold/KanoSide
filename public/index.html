@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hareskov Division Kano Bookning</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+
+
+    <style>
+    </style>
+  </head>
+  <body>
+
+    <div class="month">
+      <ul>
+        <li class="prev">&#10094;</li>
+        <li class="next">&#10095;</li>
+        <li><span style="font-size:36px">Hareskov Division Kano Bookning</span></li>
+        <li id="month">Januar</li>
+        <li id="year"><span style="font-size:18px">1998</span></li>
+      </ul>
+    </div>
+    
+    <ul class="weekdays">
+      <li>Mandag</li>
+      <li>Tirsdag</li>
+      <li>Onsdag</li>
+      <li>Torsdag</li>
+      <li>Fredag</li>
+      <li>Lørdag</li>
+      <li>Søndag</li>
+    </ul>
+    
+    <ul class="days">
+      <li><span id="Day1"></span></li>
+      <li><span id="Day2"></span></li>
+      <li><span id="Day3"></span></li>
+      <li><span id="Day4"></span></li>
+      <li><span id="Day5"></span></li>
+      <li><span id="Day6"></span></li>
+      <li><span id="Day7"></span></li>
+      <li><span id="Day8"></span></li>
+      <li><span id="Day9"></span></li>
+      <li><span id="Day10"></span></li>
+      <li><span id="Day11"></span></li>
+      <li><span id="Day12"></span></li>
+      <li><span id="Day13"></span></li>
+      <li><span id="Day14"></span></li>
+      <li><span id="Day15"></span></li>
+      <li><span id="Day16"></span></li>
+      <li><span id="Day17"></span></li>
+      <li><span id="Day18"></span></li>
+      <li><span id="Day19"></span></li>
+      <li><span id="Day20"></span></li>
+      <li><span id="Day21"></span></li>
+      <li><span id="Day22"></span></li>
+      <li><span id="Day23"></span></li>
+      <li><span id="Day24"></span></li>
+      <li><span id="Day25"></span></li>
+      <li><span id="Day26"></span></li>
+      <li><span id="Day27"></span></li>
+      <li><span id="Day28"></span></li>
+      <li><span id="Day29"></span></li>
+      <li><span id="Day30"></span></li>
+      <li><span id="Day31"></span></li>
+      <li><span id="Day32"></span></li>
+      <li><span id="Day33"></span></li>
+      <li><span id="Day34"></span></li>
+      <li><span id="Day35"></span></li>
+      <li><span id="Day36"></span></li>
+      <li><span id="Day37"></span></li>
+      <li><span id="Day38"></span></li>
+      <li><span id="Day39"></span></li>
+      <li><span id="Day40"></span></li>
+      <li><span id="Day41"></span></li>
+      <li><span id="Day42"></span></li>
+    </ul>
+
+
+    <script src="index.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-database.js"></script>
+    <script>
+      const firebaseConfig = {
+          apiKey: "AIzaSyCfPEKOi56aanIsKWhaMPjvfXwA_d28nXM",
+          authDomain: "kano-kalender-44ce5.firebaseapp.com",
+          databaseURL: "https://kano-kalender-44ce5-default-rtdb.europe-west1.firebasedatabase.app",
+          projectId: "kano-kalender-44ce5",
+          storageBucket: "kano-kalender-44ce5.appspot.com",
+          messagingSenderId: "361845659163",
+          appId: "1:361845659163:web:18fc9613fb8c76b72ccabe",
+          measurementId: "G-4M1C25VHRE"
+      };
+      firebase.initializeApp(firebaseConfig);
+    </script>
+  </body>
+</html>
