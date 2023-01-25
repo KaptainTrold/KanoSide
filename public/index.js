@@ -1,14 +1,15 @@
 /*
 Version 1: Kan vise nuværende måned og har strukturen af en kalender.
-Version 2: Kan vise flere måneder, DDS farve skema, Ændre formatering til være mere google kalender agtig
-
+Version 2: Kan vise flere måneder, DDS farve skema, Der skulle kunne reserveres kanoer og Ændre formatering til være mere google kalender agtig
+Version 3:
 
 Mangler:
-Der skulle kunne reserveres kanoer.
 Hjemmesiden skal rappotere til databasen og vice versa.
 Der skal sættes et system om til at slette data i databasen.
+Reservere flere datoer på en gang.
 */
 
+// Startup process
 window.onload = window.resizeTo(window.screen.availWidth / 2, window.screen.availHeight / 2);
 window.onload = cleanup();
 const date = new Date();
@@ -16,6 +17,7 @@ var observedMonth = date.getMonth();
 var observedYear = date.getFullYear();
 var numberWeekdays = daysInMonth(observedMonth);
 var currentDay = date.getDate();
+var nummerCur = 0;
 window.onload = setCurrentDate(date, currentDay);
 window.onload = sortDays(observedMonth, observedYear, numberWeekdays);
 
@@ -119,6 +121,9 @@ function sortDays(month, year, numberWeekdays) {
     for(let i = 1; i <= numberWeekdays; i++){
         document.getElementById("Day" + (i + startNumber)).innerHTML = i;
         document.getElementById("Day" + (i + startNumber)).style.visibility = "visible";
+        document.getElementById("Div" + (i + startNumber)).style.visibility = "visible";
+        document.getElementById("R"   + (i + startNumber)).style.visibility = "visible";
+        document.getElementById("Day" + (i + startNumber)).classList.add('active');
         if((currentDay == i) && (currentMonth == month) && (currentYear == year)){
             document.getElementById("Day" + (i + startNumber)).classList.add('current');
         }
@@ -127,9 +132,26 @@ function sortDays(month, year, numberWeekdays) {
 
 function cleanup() {
     for(let i=1; i<=37; i++){
-        document.getElementById("Day" + i).innerHTML = 1;
-        document.getElementById("Day" + i).classList.remove('current');
-        document.getElementById("Day" + i).style.visibility = "hidden";
+        document.getElementById("Day"    + i).innerHTML = 1;
+        document.getElementById("Day"    + i).classList.remove('current');
+        document.getElementById("Day"    + i).style.visibility = "hidden";
+        document.getElementById("Div"    + i).style.visibility = "hidden";
+        document.getElementById("R"      + i).style.visibility = "hidden";
+        document.getElementById("Day"    + i).classList.remove('active');
+        document.getElementById("navn"   + i).innerHTML = "Navn: ";
+        document.getElementById("gruppe" + i).innerHTML = "Gruppe: ";
+        document.getElementById("tlf"    + i).innerHTML = "Tlf: ";
+        document.getElementById("kode"   + i).innerHTML = undefined;
+        document.getElementById("R"      + i).classList.remove("Alugod");
+        document.getElementById("R"      + i).classList.remove("Sjangali");
+        document.getElementById("R"      + i).classList.remove("Ballerup");
+        document.getElementById("R"      + i).classList.remove("Byspejderne");
+        document.getElementById("R"      + i).classList.remove("Herlev2");
+        document.getElementById("R"      + i).classList.remove("Skovlunde");
+        document.getElementById("R"      + i).classList.remove("Ravnehus");
+        document.getElementById("R"      + i).classList.remove("Hjortespring");
+        document.getElementById("R"      + i).classList.remove("Mjølner");
+        document.getElementById("R"      + i).classList.add("reservation");
     }
 }
 
@@ -145,7 +167,7 @@ function forward() {
 
     numberWeekdays = daysInMonth(observedMonth);
     sortDays(observedMonth, observedYear, numberWeekdays);
-    document.getElementById("year").innerHTML = observedYear;
+    document.getElementById("year").innerHTML  = observedYear;
     document.getElementById("month").innerHTML = monthTranslator(observedMonth);
 }
 
@@ -161,17 +183,73 @@ function backward() {
 
     numberWeekdays = daysInMonth(observedMonth);
     sortDays(observedMonth, observedYear, numberWeekdays);
-    document.getElementById("year").innerHTML = observedYear;
+    document.getElementById("year").innerHTML  = observedYear;
     document.getElementById("month").innerHTML = monthTranslator(observedMonth);
 }
 
 function reserver(nummer) {
-    console.log("Du der " + nummer);
-    //let reserved = document.getElementById("R" + nummer).value;
+    if (document.getElementById("Day" + nummer).style.visibility == "hidden"){
+    } else {
+        nummerCur = nummer;
+        if((document.getElementById("kode" + nummer).innerHTML == "undefined")){
+            document.getElementById("formR").style.display = "block";
+        } else {
+            document.getElementById("formP").style.display = "block";
+        }
+    }
+}
 
-    //if(reserved == 1){
-        // Pop up med password for at ændre
-    //} else {
-        // Pop up med de fire oplysninger for at huske
-    //}
+function closeForm() {
+
+    document.getElementById("formR").style.display = "none";
+    document.getElementById("formP").style.display = "none";
+  }
+
+function closeR() {
+    let navn   = document.getElementsByTagName('input')[0].value;
+    let gruppe = document.getElementById("gruppe").value;
+    let tlf    = document.getElementsByTagName('input')[1].value;
+    let kode   = document.getElementsByTagName('input')[2].value;
+    let gruppenavn = document.getElementById("gruppe").options[document.getElementById("gruppe").selectedIndex].innerHTML;
+    console.log((navn != "") + " " + (gruppe != "reservation") + " " + (tlf != "") + " " + (kode != ""));
+    if((navn != "") & (gruppe != "reservation") & (tlf != "") & (kode != "")) {
+        document.getElementById("R"      + nummerCur).classList.remove("reservation");
+        document.getElementById("R"      + nummerCur).classList.add(gruppe);
+        document.getElementById("navn"   + nummerCur).innerHTML = "Navn: " + navn  ;
+        document.getElementById("gruppe" + nummerCur).innerHTML = "Gruppe: " + gruppenavn;
+        document.getElementById("tlf"    + nummerCur).innerHTML = "Tlf: " + tlf   ;
+        document.getElementById("kode"   + nummerCur).innerHTML =               kode  ;
+
+        document.getElementById("formR").style.display = "none";
+        document.getElementById("formP").style.display = "none";
+    } else {
+        alert("Der mangler at blive indtastet noget");
+    }
+}
+
+function Slet() {
+    let nyKode    = document.getElementsByTagName('input')[3].value;
+    let gamleKode = document.getElementById("kode" + nummerCur).innerHTML;
+
+    if(nyKode == gamleKode){
+        document.getElementById("formP").style.display = "none";
+        document.getElementById("navn"   + nummerCur).innerHTML = "Navn:";
+        document.getElementById("gruppe" + nummerCur).innerHTML = "Gruppe:";
+        document.getElementById("tlf"    + nummerCur).innerHTML = "Tlf:";
+        document.getElementById("kode"   + nummerCur).innerHTML = undefined;
+    } else {
+        alert("Forkert password");
+    }
+}
+
+function Ændre() {
+    let nyKode    = document.getElementsByTagName('input')[3].value;
+    let gamleKode = document.getElementById("kode" + nummerCur).innerHTML;
+    console.log(nyKode + "     " + gamleKode);
+    if(nyKode == gamleKode){
+        document.getElementById("formP").style.display = "none";
+        document.getElementById("formR").style.display = "block";
+    } else {
+        alert("Forkert password");
+    }
 }

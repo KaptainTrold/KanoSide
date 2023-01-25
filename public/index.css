@@ -3,7 +3,7 @@ body {font-family: Verdana, sans-serif;}
 
 /* Month header */
 .month {
-  padding: 40px 0px;
+  padding: 0px 0px;
   width: 100%;
   background: #003366;
   text-align: center;
@@ -21,6 +21,15 @@ body {font-family: Verdana, sans-serif;}
   font-size: 20px;
   text-transform: uppercase;
   letter-spacing: 3px;
+}
+
+.info {
+  font-size: 9px;
+}
+
+.kode {
+  font-size: 1px;
+  display: none;
 }
 
 /* Previous button inside month header */
@@ -53,25 +62,191 @@ body {font-family: Verdana, sans-serif;}
 
 /* Days (1-31) */
 .days {
-  padding: 10px 0;
+  padding: 10px 0px;
   background: #eee;
-  margin: 0;
+  margin-bottom: 10px;
   display: hidden;
 }
 
-.days li {
+.days div{
   list-style-type: none;
   display: inline-block;
   width: 13.6%;
   text-align: center;
-  height: 110px;
-  border: 1px solid black;
+  height: 105px;
+  font-size:20px;
+  color: black;
+  border: solid black 1px;
+  visibility: hidden;
+}
+
+.days div .active{
+  list-style-type: none;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  height: 25px;
   font-size:20px;
   color: black;
 }
-
 /* Highlight the "current" day */
-.days li .current {
+.days div .current {
   background: #003366;
   color: white !important
+}
+
+.days div .reservation {
+  margin: 0.5%;
+  display: block;
+  align-items: center;
+  height: 76px;
+  width: 98%;
+  background: #eee;
+  visibility: hidden;
+}
+
+.days div .Alugod {
+  margin: 0.5%;
+  display: block;
+  align-items: center;
+  height: 76px;
+  width: 98%;
+  background: red;
+}
+
+.days div .Sjangali {
+  margin: 0.5%;
+  display: block;
+  align-items: center;
+  height: 76px;
+  width: 98%;
+  background: #654321;
+}
+
+.days div .Herlev2 {
+  margin: 0.5%;
+  display: block;
+  align-items: center;
+  height: 76px;
+  width: 98%;
+  background: orangered;
+}
+
+.days div .Byspejderne {
+  margin: 0.5%;
+  display: block;
+  align-items: center;
+  height: 76px;
+  width: 98%;
+  background: pink;
+}
+
+.days div .Ballerup {
+  margin: 0.5%;
+  display: block;
+  align-items: center;
+  height: 76px;
+  width: 98%;
+  background: turquoise;
+}
+
+.days div .Skovlunde {
+  margin: 0.5%;
+  display: block;
+  align-items: center;
+  height: 76px;
+  width: 98%;
+  background: lightgreen;
+}
+
+.days div .Ravnehus {
+  margin: 0.5%;
+  display: block;
+  align-items: center;
+  height: 76px;
+  width: 98%;
+  background: purple;
+}
+
+.days div .Hjortespring {
+  margin: 0.5%;
+  display: block;
+  align-items: center;
+  height: 76px;
+  width: 98%;
+  background: darkgreen;
+}
+
+.days div .Mjølner {
+  margin: 0.5%;
+  display: block;
+  align-items: center;
+  height: 76px;
+  width: 98%;
+  background: yellow;
+}
+
+
+/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Full-width input fields */
+.form-container select {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+  color: #757575;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
 }
