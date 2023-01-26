@@ -1,13 +1,11 @@
 /*
 Version 1: Kan vise nuværende måned og har strukturen af en kalender.
 Version 2: Kan vise flere måneder, DDS farve skema, Der skulle kunne reserveres kanoer og Ændre formatering til være mere google kalender agtig
-Version 3:
+Version 3: Hjemmesiden skal rappotere til databasen og vice versa, Der skal sættes et system om til at slette data i databasen og Reservere flere datoer på en gang.
 
 Mangler:
-Hjemmesiden skal rappotere til databasen og vice versa.
-Der skal sættes et system om til at slette data i databasen.
-Reservere flere datoer på en gang.
 */
+
 
 // Startup process
 window.onload = window.resizeTo(window.screen.availWidth / 2, window.screen.availHeight / 2);
@@ -18,8 +16,12 @@ var observedYear = date.getFullYear();
 var numberWeekdays = daysInMonth(observedMonth);
 var currentDay = date.getDate();
 var nummerCur = 0;
+var startNumber = 0;
+const database = firebase.database().ref('/');
+var changeAllowed = 0;
 window.onload = setCurrentDate(date, currentDay);
 window.onload = sortDays(observedMonth, observedYear, numberWeekdays);
+window.onload = cleanDatabase(observedYear);
 
 
 function setCurrentDate(date, day) {
@@ -93,25 +95,7 @@ function sortDays(month, year, numberWeekdays) {
 
     let dateString = (month + 1) + "/1/" + year;
     let date = new Date(dateString);
-    let startDay = date.toLocaleDateString("en-GB", { weekday: 'long' });
-    let startNumber;
-
-    switch(startDay) {
-        case "Monday": startNumber = 0;
-        break;
-        case "Tuesday": startNumber = 1;
-        break;
-        case "Wednesday": startNumber = 2;
-        break;
-        case "Thursday": startNumber = 3;
-        break;
-        case "Friday": startNumber = 4;
-        break;
-        case "Saturday": startNumber = 5;
-        break;
-        case "Sunday": startNumber = 6;
-        break;
-    }
+    startNumber = findFirstDay(date);
 
     let currentDate = new Date();
     let currentDay = currentDate.getDate();
@@ -119,6 +103,16 @@ function sortDays(month, year, numberWeekdays) {
     let currentYear = currentDate.getFullYear();
 
     for(let i = 1; i <= numberWeekdays; i++){
+        database.once('value', snap => {
+            let dag = snap.child(observedYear + '/' + observedMonth + '/' + (i + startNumber)).val();
+            if (dag != null) {
+                document.getElementById("navn"   + (i + startNumber)).innerHTML = "Navn: " + dag.Navn;
+                document.getElementById("gruppe" + (i + startNumber)).innerHTML = "Gruppe: " + dag.Gruppenavn;
+                document.getElementById("tlf"    + (i + startNumber)).innerHTML = "Tlf: " + dag.Tlf;
+                document.getElementById("R"      + (i + startNumber)).classList.remove("reservation");
+                document.getElementById("R"      + (i + startNumber)).classList.add(dag.Gruppe);
+            };
+        });
         document.getElementById("Day" + (i + startNumber)).innerHTML = i;
         document.getElementById("Day" + (i + startNumber)).style.visibility = "visible";
         document.getElementById("Div" + (i + startNumber)).style.visibility = "visible";
@@ -127,6 +121,36 @@ function sortDays(month, year, numberWeekdays) {
         if((currentDay == i) && (currentMonth == month) && (currentYear == year)){
             document.getElementById("Day" + (i + startNumber)).classList.add('current');
         }
+    }
+    for(i = 29; i < 32; i++ ) {
+        document.querySelectorAll("#fra option").forEach(opt => {
+            if (opt.value == i){
+                opt.disabled = false;
+                opt.removeAttribute("hidden");
+            }
+        });
+
+        document.querySelectorAll("#til option").forEach(opt => {
+            if (opt.value == i){
+                opt.disabled = false;
+                opt.removeAttribute("hidden");
+            }
+        });
+    }
+    for(i = (numberWeekdays + 1); i < 32; i++) {
+        document.querySelectorAll("#fra option").forEach(opt => {
+            if (opt.value == i){
+                opt.disabled = true;
+                opt.hidden = "hidden";
+            }
+        });
+
+        document.querySelectorAll("#til option").forEach(opt => {
+            if (opt.value == i){
+                opt.disabled = true;
+                opt.hidden = "hidden";
+            }
+        });
     }
 }
 
@@ -141,7 +165,6 @@ function cleanup() {
         document.getElementById("navn"   + i).innerHTML = "Navn: ";
         document.getElementById("gruppe" + i).innerHTML = "Gruppe: ";
         document.getElementById("tlf"    + i).innerHTML = "Tlf: ";
-        document.getElementById("kode"   + i).innerHTML = undefined;
         document.getElementById("R"      + i).classList.remove("Alugod");
         document.getElementById("R"      + i).classList.remove("Sjangali");
         document.getElementById("R"      + i).classList.remove("Ballerup");
@@ -157,7 +180,8 @@ function cleanup() {
 
 function forward() {
     cleanup();
-
+    document.getElementById("formR").style.display = "none";
+    document.getElementById("formP").style.display = "none";
     if(observedMonth == 11){
         observedMonth = 0;
         observedYear++;
@@ -173,10 +197,18 @@ function forward() {
 
 function backward() {
     cleanup();
-    
+    document.getElementById("formR").style.display = "none";
+    document.getElementById("formP").style.display = "none";
     if(observedMonth == 0){
-        observedMonth = 11;
-        observedYear--;
+        database.once('value', snap => {
+            let forrigÅr = snap.child((observedYear-1)).val();
+            if (forrigÅr != null) {
+                observedMonth = 11;
+                observedYear--;
+            } else {
+                alert("Du kan ikke gå længere tilbage i tiden");
+            }
+        })
     } else {
         observedMonth--;
     }
@@ -191,8 +223,10 @@ function reserver(nummer) {
     if (document.getElementById("Day" + nummer).style.visibility == "hidden"){
     } else {
         nummerCur = nummer;
-        if((document.getElementById("kode" + nummer).innerHTML == "undefined")){
+        if((document.getElementById("navn" + nummer).innerHTML == "Navn: ")){
             document.getElementById("formR").style.display = "block";
+            document.getElementById("fra").value = nummer - startNumber;
+            document.getElementById("til").value = nummer - startNumber;
         } else {
             document.getElementById("formP").style.display = "block";
         }
@@ -200,7 +234,6 @@ function reserver(nummer) {
 }
 
 function closeForm() {
-
     document.getElementById("formR").style.display = "none";
     document.getElementById("formP").style.display = "none";
   }
@@ -211,14 +244,122 @@ function closeR() {
     let tlf    = document.getElementsByTagName('input')[1].value;
     let kode   = document.getElementsByTagName('input')[2].value;
     let gruppenavn = document.getElementById("gruppe").options[document.getElementById("gruppe").selectedIndex].innerHTML;
-    console.log((navn != "") + " " + (gruppe != "reservation") + " " + (tlf != "") + " " + (kode != ""));
-    if((navn != "") & (gruppe != "reservation") & (tlf != "") & (kode != "")) {
-        document.getElementById("R"      + nummerCur).classList.remove("reservation");
-        document.getElementById("R"      + nummerCur).classList.add(gruppe);
-        document.getElementById("navn"   + nummerCur).innerHTML = "Navn: " + navn  ;
-        document.getElementById("gruppe" + nummerCur).innerHTML = "Gruppe: " + gruppenavn;
-        document.getElementById("tlf"    + nummerCur).innerHTML = "Tlf: " + tlf   ;
-        document.getElementById("kode"   + nummerCur).innerHTML =               kode  ;
+
+    if((navn != "") & (gruppe != "reservation") & (tlf != "")) {
+        let fra = document.getElementById("fra").value;
+        let til = document.getElementById("til").value;
+
+        if (fra == til) {
+            document.getElementById("R"      + nummerCur).classList.remove("reservation");
+            document.getElementById("R"      + nummerCur).classList.add(gruppe);
+            document.getElementById("navn"   + nummerCur).innerHTML = "Navn: " + navn  ;
+            document.getElementById("gruppe" + nummerCur).innerHTML = "Gruppe: " + gruppenavn;
+            document.getElementById("tlf"    + nummerCur).innerHTML = "Tlf: " + tlf   ;
+
+            database.once('value', snap => {
+                database.child(observedYear + '/' + observedMonth + '/' + nummerCur).set({
+                    Navn: navn,
+                    Gruppe: gruppe,
+                    Gruppenavn: gruppenavn,
+                    Tlf: tlf,
+                    Password: kode
+                });
+            });
+        } else {
+            let periode = 0;
+
+            if (Number(fra) > Number(til)) {
+                periode = Number(til) + numberWeekdays - Number(fra);
+            } else {
+                periode = Number(til) - Number(fra);
+            }
+
+            let semaphone = 0;
+            let dayNum    = 0;
+            let optaget   = 0;
+
+            for ( i = 0; i <= periode; i++ ) {
+                dayNum = Number(i) + nummerCur - startNumber;
+                if (numberWeekdays < dayNum) {
+                    database.once('value', snap => { 
+                        optaget = snap.child(observedYear + '/' + (observedMonth + 1) + '/' + (dayNum - numberWeekdays) + '/Password').val();
+                    });
+
+                    if (optaget != null) {
+                        semaphone = 1;
+                    }
+                } else {
+                    if (document.getElementById("navn" + (dayNum + startNumber)).innerHTML != "Navn: ") {
+                        semaphone = 1;
+                    }
+                }
+            }
+
+            if (semaphone & (changeAllowed == 0)) {
+                alert("En af de valgte dag er optaget");
+            } else {
+                changeAllowed == 0;
+
+                if (fra > til) {
+                    for ( let k = 0; k <= periode; k++ ) {
+                        dayNum = Number(k) + Number(fra);
+                        let dateString = (observedMonth + 2) + "/1/" + observedYear;
+                        let date = new Date(dateString);
+                        let newMonthStartDay = findFirstDay(date);
+
+                        if (numberWeekdays < dayNum) {
+                            if (0 < Number(Number(fra) + Number(k) - Number(numberWeekdays) + newMonthStartDay) < 37) {
+                                database.once('value', snap => {
+                                    database.child(observedYear + '/' + (observedMonth + 1) + '/' + (Number(fra) + Number(k) + newMonthStartDay - Number(numberWeekdays))).set({
+                                        Navn: navn,
+                                        Gruppe: gruppe,
+                                        Gruppenavn: gruppenavn,
+                                        Tlf: tlf,
+                                        Password: kode
+                                    });
+                                });
+                            } else {
+                                alert("Noget gik galt, kontakt +45 61780264 eller mikkelaa2750@yahoo.dk");
+                            }
+                        } else {
+                            document.getElementById("R"      + (Number(fra) + startNumber + k)).classList.remove("reservation");
+                            document.getElementById("R"      + (Number(fra) + startNumber + k)).classList.add(gruppe);
+                            document.getElementById("navn"   + (Number(fra) + startNumber + k)).innerHTML = "Navn: " + navn  ;
+                            document.getElementById("gruppe" + (Number(fra) + startNumber + k)).innerHTML = "Gruppe: " + gruppenavn;
+                            document.getElementById("tlf"    + (Number(fra) + startNumber + k)).innerHTML = "Tlf: " + tlf   ;
+
+                            database.once('value', snap => {
+                                database.child(observedYear + '/' + observedMonth + '/' + (Number(fra) + Number(k))).set({
+                                    Navn: navn,
+                                    Gruppe: gruppe,
+                                    Gruppenavn: gruppenavn,
+                                    Tlf: tlf,
+                                    Password: kode
+                                });
+                            });
+                        }
+                    }
+                } else {
+                    for( i = 0; i <= periode; i++ ) {
+                        document.getElementById("R"      + (Number(fra) + startNumber + i)).classList.remove("reservation");
+                        document.getElementById("R"      + (Number(fra) + startNumber + i)).classList.add(gruppe);
+                        document.getElementById("navn"   + (Number(fra) + startNumber + i)).innerHTML = "Navn: " + navn  ;
+                        document.getElementById("gruppe" + (Number(fra) + startNumber + i)).innerHTML = "Gruppe: " + gruppenavn;
+                        document.getElementById("tlf"    + (Number(fra) + startNumber + i)).innerHTML = "Tlf: " + tlf   ;
+            
+                        database.once('value', snap => {
+                            database.child(observedYear + '/' + observedMonth + '/' + (Number(fra) + startNumber + i)).set({
+                                Navn: navn,
+                                Gruppe: gruppe,
+                                Gruppenavn: gruppenavn,
+                                Tlf: tlf,
+                                Password: kode
+                            });
+                        });
+                    }
+                }
+            }
+        }
 
         document.getElementById("formR").style.display = "none";
         document.getElementById("formP").style.display = "none";
@@ -229,14 +370,22 @@ function closeR() {
 
 function Slet() {
     let nyKode    = document.getElementsByTagName('input')[3].value;
-    let gamleKode = document.getElementById("kode" + nummerCur).innerHTML;
+    let data = 0;
+    let sweetChildOfMine = 0;
 
-    if(nyKode == gamleKode){
+    database.once('value', snap => {
+        data = snap.child(observedYear + '/' + observedMonth + '/' + nummerCur).val();
+        sweetChildOfMine = database.child(observedYear + '/' + observedMonth + '/' + nummerCur);
+    });
+
+    if(nyKode == data.Password){
+        sweetChildOfMine.remove();
         document.getElementById("formP").style.display = "none";
-        document.getElementById("navn"   + nummerCur).innerHTML = "Navn:";
-        document.getElementById("gruppe" + nummerCur).innerHTML = "Gruppe:";
-        document.getElementById("tlf"    + nummerCur).innerHTML = "Tlf:";
-        document.getElementById("kode"   + nummerCur).innerHTML = undefined;
+        document.getElementById("navn"   + nummerCur).innerHTML = "Navn: ";
+        document.getElementById("gruppe" + nummerCur).innerHTML = "Gruppe: ";
+        document.getElementById("tlf"    + nummerCur).innerHTML = "Tlf: ";
+        document.getElementById("R"      + nummerCur).classList.remove(data.Gruppe);
+        document.getElementById("R"      + nummerCur).classList.add("reservation");
     } else {
         alert("Forkert password");
     }
@@ -244,12 +393,46 @@ function Slet() {
 
 function Ændre() {
     let nyKode    = document.getElementsByTagName('input')[3].value;
-    let gamleKode = document.getElementById("kode" + nummerCur).innerHTML;
-    console.log(nyKode + "     " + gamleKode);
-    if(nyKode == gamleKode){
+    let gamleKode = 0;
+    database.once('value', snap => {
+        gamleKode = snap.child(observedYear + '/' + observedMonth + '/' + nummerCur).val();
+    });
+
+    if(nyKode == gamleKode.Password){
+        changeAllowed = 1;
         document.getElementById("formP").style.display = "none";
         document.getElementById("formR").style.display = "block";
     } else {
         alert("Forkert password");
+    }
+}
+
+function cleanDatabase(year) {
+    database.once('value', snap => {
+        let twoYear = snap.child((year-3)).val();
+        if ( twoYear != null) {
+            database.child((year-3)).remove();
+        }
+    });
+}
+
+function findFirstDay(date) {
+    let startDay = date.toLocaleDateString("en-GB", { weekday: 'long' });
+
+    switch(startDay) {
+        case "Monday": return 0;
+        break;
+        case "Tuesday": return 1;
+        break;
+        case "Wednesday": return 2;
+        break;
+        case "Thursday": return 3;
+        break;
+        case "Friday": return 4;
+        break;
+        case "Saturday": return 5;
+        break;
+        case "Sunday": return 6;
+        break;
     }
 }
