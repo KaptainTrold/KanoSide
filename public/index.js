@@ -108,7 +108,6 @@ function sortDays(month, year, numberWeekdays) {
             if (dag != null) {
                 document.getElementById("navn"   + (i + startNumber)).innerHTML = "Navn: " + dag.Navn;
                 document.getElementById("gruppe" + (i + startNumber)).innerHTML = "Gruppe: " + dag.Gruppenavn;
-                document.getElementById("tlf"    + (i + startNumber)).innerHTML = "Tlf: " + dag.Tlf;
                 document.getElementById("R"      + (i + startNumber)).classList.remove("reservation");
                 document.getElementById("R"      + (i + startNumber)).classList.add(dag.Gruppe);
             };
@@ -164,7 +163,6 @@ function cleanup() {
         document.getElementById("Day"    + i).classList.remove('active');
         document.getElementById("navn"   + i).innerHTML = "Navn: ";
         document.getElementById("gruppe" + i).innerHTML = "Gruppe: ";
-        document.getElementById("tlf"    + i).innerHTML = "Tlf: ";
         document.getElementById("R"      + i).classList.remove("Alugod");
         document.getElementById("R"      + i).classList.remove("Sjangali");
         document.getElementById("R"      + i).classList.remove("Ballerup");
@@ -241,11 +239,10 @@ function closeForm() {
 function closeR() {
     let navn   = document.getElementsByTagName('input')[0].value;
     let gruppe = document.getElementById("gruppe").value;
-    let tlf    = document.getElementsByTagName('input')[1].value;
-    let kode   = document.getElementsByTagName('input')[2].value;
+    let kode   = document.getElementsByTagName('input')[1].value;
     let gruppenavn = document.getElementById("gruppe").options[document.getElementById("gruppe").selectedIndex].innerHTML;
 
-    if((navn != "") & (gruppe != "reservation") & (tlf != "")) {
+    if((navn != "") & (gruppe != "reservation")) {
         let fra = document.getElementById("fra").value;
         let til = document.getElementById("til").value;
 
@@ -254,14 +251,12 @@ function closeR() {
             document.getElementById("R"      + nummerCur).classList.add(gruppe);
             document.getElementById("navn"   + nummerCur).innerHTML = "Navn: " + navn  ;
             document.getElementById("gruppe" + nummerCur).innerHTML = "Gruppe: " + gruppenavn;
-            document.getElementById("tlf"    + nummerCur).innerHTML = "Tlf: " + tlf   ;
 
             database.once('value', snap => {
                 database.child(observedYear + '/' + observedMonth + '/' + nummerCur).set({
                     Navn: navn,
                     Gruppe: gruppe,
                     Gruppenavn: gruppenavn,
-                    Tlf: tlf,
                     Password: kode
                 });
             });
@@ -314,7 +309,6 @@ function closeR() {
                                         Navn: navn,
                                         Gruppe: gruppe,
                                         Gruppenavn: gruppenavn,
-                                        Tlf: tlf,
                                         Password: kode
                                     });
                                 });
@@ -326,14 +320,12 @@ function closeR() {
                             document.getElementById("R"      + (Number(fra) + startNumber + k)).classList.add(gruppe);
                             document.getElementById("navn"   + (Number(fra) + startNumber + k)).innerHTML = "Navn: " + navn  ;
                             document.getElementById("gruppe" + (Number(fra) + startNumber + k)).innerHTML = "Gruppe: " + gruppenavn;
-                            document.getElementById("tlf"    + (Number(fra) + startNumber + k)).innerHTML = "Tlf: " + tlf   ;
 
                             database.once('value', snap => {
                                 database.child(observedYear + '/' + observedMonth + '/' + (Number(fra) + Number(k))).set({
                                     Navn: navn,
                                     Gruppe: gruppe,
                                     Gruppenavn: gruppenavn,
-                                    Tlf: tlf,
                                     Password: kode
                                 });
                             });
@@ -345,14 +337,12 @@ function closeR() {
                         document.getElementById("R"      + (Number(fra) + startNumber + i)).classList.add(gruppe);
                         document.getElementById("navn"   + (Number(fra) + startNumber + i)).innerHTML = "Navn: " + navn  ;
                         document.getElementById("gruppe" + (Number(fra) + startNumber + i)).innerHTML = "Gruppe: " + gruppenavn;
-                        document.getElementById("tlf"    + (Number(fra) + startNumber + i)).innerHTML = "Tlf: " + tlf   ;
             
                         database.once('value', snap => {
                             database.child(observedYear + '/' + observedMonth + '/' + (Number(fra) + startNumber + i)).set({
                                 Navn: navn,
                                 Gruppe: gruppe,
                                 Gruppenavn: gruppenavn,
-                                Tlf: tlf,
                                 Password: kode
                             });
                         });
@@ -383,7 +373,6 @@ function Slet() {
         document.getElementById("formP").style.display = "none";
         document.getElementById("navn"   + nummerCur).innerHTML = "Navn: ";
         document.getElementById("gruppe" + nummerCur).innerHTML = "Gruppe: ";
-        document.getElementById("tlf"    + nummerCur).innerHTML = "Tlf: ";
         document.getElementById("R"      + nummerCur).classList.remove(data.Gruppe);
         document.getElementById("R"      + nummerCur).classList.add("reservation");
     } else {
