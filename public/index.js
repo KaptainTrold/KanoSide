@@ -198,15 +198,8 @@ function backward() {
     document.getElementById("formR").style.display = "none";
     document.getElementById("formP").style.display = "none";
     if(observedMonth == 0){
-        database.once('value', snap => {
-            let forrigÅr = snap.child((observedYear-1)).val();
-            if (forrigÅr != null) {
-                observedMonth = 11;
-                observedYear--;
-            } else {
-                alert("Du kan ikke gå længere tilbage i tiden");
-            }
-        })
+        observedMonth = 11;
+        --observedYear;
     } else {
         observedMonth--;
     }
