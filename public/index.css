@@ -1,30 +1,29 @@
 ul {list-style-type: none;}
 body {font-family: Verdana, sans-serif;}
 
+
 /* Month header */
 .month {
-  padding: 0px 0px;
-  width: 100%;
+  width: 100vw;
   background: #003366;
   text-align: center;
 }
 
-
 /* Month list */
 .month ul {
-  margin: 0px;
-  padding: 10px;
+  margin: 0vh;
+  padding: 1vh;
 }
 
 .month ul li {
   color: white;
-  font-size: 20px;
+  font-size: 1.6vh;
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: .1vh;
 }
 
 .info {
-  font-size: 9px;
+  font-size: 1vh;
 }
 
 .kode {
@@ -34,49 +33,60 @@ body {font-family: Verdana, sans-serif;}
 
 /* Previous button inside month header */
 .month .prev {
+  position: absolute !important;
   float: left;
-  font-size: 75px;
-  padding-left: 5px;
+  font-size: 9vh;
+  top: -1vh;
+  left: 1vw;
+  cursor: pointer;
 }
 
 /* Next button */
 .month .next {
+  position: absolute !important;
   float: right;
-  font-size: 75px;
-  padding-right: 5px;
+  font-size: 9vh;
+  top: -1vh;
+  right: 1vw;
+  cursor: pointer;
 }
 
 /* Weekdays (Mon-Sun) */
 .weekdays {
+  width: 99vw;
   margin: 0;
-  padding: 10px 0;
+  padding: .75vh .5vw;
   background-color:#ddd;
 }
 
 .weekdays li {
   display: inline-block;
-  width: 13.6%;
-  color: solid black;
+  width: 12.8vw;
+  margin: 0 0.5vw;
+  color: black;
   text-align: center;
+  font-size: 1.5vh;
 }
 
 /* Days (1-31) */
 .days {
-  padding: 10px 0px;
+  padding: 1vh 0vh;
   background: #eee;
-  margin-bottom: 10px;
+  padding: 0 .5vw;
+  width: 99vw;
   display: hidden;
 }
 
 .days div{
   list-style-type: none;
   display: inline-block;
-  width: 13.6%;
+  width: 12.7%;
+  margin: 0 0.55vw;
   text-align: center;
-  height: 105px;
-  font-size:20px;
+  height: 11.5vh;
+  font-size:1.5vh;
   color: black;
-  border: solid black 1px;
+  border: solid black .1vw;
   visibility: hidden;
 }
 
@@ -85,21 +95,23 @@ body {font-family: Verdana, sans-serif;}
   display: inline-block;
   width: 100%;
   text-align: center;
-  height: 25px;
-  font-size:20px;
+  height: 2vh;
+  padding: 0.1vh 0;
+  font-size: 1.5vh;
   color: black;
 }
 /* Highlight the "current" day */
 .days div .current {
   background: #003366;
-  color: white !important
+  /*height: 18%;*/
+  color: white !important 
 }
 
 .days div .reservation {
   margin: 0.5%;
   display: block;
   align-items: center;
-  height: 76px;
+  height: 76%;
   width: 98%;
   background: #eee;
   visibility: hidden;
@@ -109,7 +121,7 @@ body {font-family: Verdana, sans-serif;}
   margin: 0.5%;
   display: block;
   align-items: center;
-  height: 76px;
+  height: 76%;
   width: 98%;
   background: red;
 }
@@ -118,7 +130,7 @@ body {font-family: Verdana, sans-serif;}
   margin: 0.5%;
   display: block;
   align-items: center;
-  height: 76px;
+  height: 76%;
   width: 98%;
   background: #654321;
 }
@@ -127,7 +139,7 @@ body {font-family: Verdana, sans-serif;}
   margin: 0.5%;
   display: block;
   align-items: center;
-  height: 76px;
+  height: 76%;
   width: 98%;
   background: orangered;
 }
@@ -136,7 +148,7 @@ body {font-family: Verdana, sans-serif;}
   margin: 0.5%;
   display: block;
   align-items: center;
-  height: 76px;
+  height: 76%;
   width: 98%;
   background: pink;
 }
@@ -145,7 +157,7 @@ body {font-family: Verdana, sans-serif;}
   margin: 0.5%;
   display: block;
   align-items: center;
-  height: 76px;
+  height: 76%;
   width: 98%;
   background: turquoise;
 }
@@ -154,7 +166,7 @@ body {font-family: Verdana, sans-serif;}
   margin: 0.5%;
   display: block;
   align-items: center;
-  height: 76px;
+  height: 76%;
   width: 98%;
   background: lightgreen;
 }
@@ -163,7 +175,7 @@ body {font-family: Verdana, sans-serif;}
   margin: 0.5%;
   display: block;
   align-items: center;
-  height: 76px;
+  height: 76%;
   width: 98%;
   background: purple;
 }
@@ -172,7 +184,7 @@ body {font-family: Verdana, sans-serif;}
   margin: 0.5%;
   display: block;
   align-items: center;
-  height: 76px;
+  height: 76%;
   width: 98%;
   background: darkgreen;
 }
@@ -181,7 +193,7 @@ body {font-family: Verdana, sans-serif;}
   margin: 0.5%;
   display: block;
   align-items: center;
-  height: 76px;
+  height: 76%;
   width: 98%;
   background: yellow;
 }
