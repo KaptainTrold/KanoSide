@@ -7,7 +7,7 @@ Mangler:
 */
 
 
-// Startup process
+// Startup process and much more
 window.onload = window.resizeTo(window.screen.availWidth / 2, window.screen.availHeight / 2);
 window.onload = cleanup();
 const date = new Date();
