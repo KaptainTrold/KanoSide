@@ -80,11 +80,11 @@ body {font-family: Verdana, sans-serif;}
 .days div{
   list-style-type: none;
   display: inline-block;
-  width: 12.7%;
-  margin: 0 0.55vw;
+  width: 12.5%;
+  margin: 0 0.65vw;
   text-align: center;
   height: 11.5vh;
-  font-size:1.5vh;
+  font-size:1.25vh;
   color: black;
   border: solid black .1vw;
   visibility: hidden;

@@ -45,15 +45,10 @@ function setCurrentDate(date, day) {
     document.getElementById("year").innerHTML  = observedYear;
     document.getElementById("month").innerHTML = monthTranslator(observedMonth);
 
-    //if (window.mobileAndTabletCheck) {
-        console.log(document.styleSheets[0].cssRules[10].style.margin);
-        console.log(document.styleSheets[0].cssRules[12].style.margin);
+    if (window.mobileAndTabletCheck) {
         document.styleSheets[0].cssRules[10].style.margin = "0 0";
         document.styleSheets[0].cssRules[12].style.margin = "0 0";
-        console.log(document.styleSheets[0].cssRules[10].style.margin);
-        console.log(document.styleSheets[0].cssRules[12].style.margin);
-        console.log(document.styleSheets[0]);
-    //}
+    }
 }
 
 function monthTranslator(number) {
