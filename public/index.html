@@ -78,7 +78,7 @@
         <h1>Reserver Kano</h1>
     
         <label for="navn"><b>Fulde Navn</b></label>
-        <input type="text" oninvalid="this.setCustomValidity('Skriv navn')" placeholder="Fulde Navn" name="navn" id="navn" maxlength="20" required>
+        <input type="text" oninvalid="this.setCustomValidity('Skriv navn')" placeholder="Fulde Navn" name="navn" id="navn" maxlength="40" required>
     
         <label for="gruppe"><b>Gruppe</b></label>
         <select name="gruppe" id="gruppe" required oninvalid="this.setCustomValidity('Vælg gruppe')">
@@ -96,7 +96,7 @@
 
 
         <label for="tilOgFra"><b>Fra og til</b></label> <br>
-        <select class="dato" name="fra" id="fra" required>
+        <select class="dato" name="fra" id="fra" onmousedown="if(this.options.length>5){this.size=5;}"  onchange='this.size=0;' onblur="this.size=0;" required>
           <option value="1" >1 </option>
           <option value="2" >2 </option>
           <option value="3" >3 </option>
@@ -128,9 +128,9 @@
           <option value="29">29</option>
           <option value="30">30</option>
           <option value="31">31</option>
-        </select>
+        </select> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 
-        <select class="dato" name="til" id="til" required>
+        <select class="dato" name="til" id="til" onmousedown="if(this.options.length>5){this.size=5;}"  onchange='this.size=0;' onblur="this.size=0;" required>
           <option value="1" >1 </option>
           <option value="2" >2 </option>
           <option value="3" >3 </option>
@@ -162,7 +162,7 @@
           <option value="29">29</option>
           <option value="30">30</option>
           <option value="31">31</option>
-        </select><br>
+        </select><br><br><br>
 
         <label for="kode"><b>Password</b></label>
         <input type="text" oninvalid="this.setCustomValidity('Skriv password')" placeholder="Skriv Password" name="kode" id="kodeord" required>
@@ -187,19 +187,6 @@
 
     <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-database.js"></script>
-    <script>
-      const firebaseConfig = {
-        apiKey: "AIzaSyCfPEKOi56aanIsKWhaMPjvfXwA_d28nXM",
-        authDomain: "kano-kalender-44ce5.firebaseapp.com",
-        databaseURL: "https://kano-kalender-44ce5-default-rtdb.europe-west1.firebasedatabase.app",
-        projectId: "kano-kalender-44ce5",
-        storageBucket: "kano-kalender-44ce5.appspot.com",
-        messagingSenderId: "361845659163",
-        appId: "1:361845659163:web:18fc9613fb8c76b72ccabe",
-        measurementId: "G-4M1C25VHRE"
-      };
-      firebase.initializeApp(firebaseConfig);
-    </script>
     <script src="index.js"></script>
   </body>
 </html>

@@ -4,7 +4,7 @@ body {font-family: Verdana, sans-serif;}
 
 /* Month header */
 .month {
-  width: 99vw;
+  width: 100vw;
   background: #003366;
   text-align: center;
 }
@@ -53,7 +53,7 @@ body {font-family: Verdana, sans-serif;}
 
 /* Weekdays (Mon-Sun) */
 .weekdays {
-  width: 99vw;
+  width: 100vw;
   margin: 0;
   padding: .75vh 0;
   background-color:#ddd;
@@ -65,14 +65,14 @@ body {font-family: Verdana, sans-serif;}
   margin: 0 0.05vw;
   color: black;
   text-align: center;
-  font-size: 1.5vw;
+  font-size: 1.4vw;
 }
 
 /* Days (1-31) */
 .days {
   padding: 1vh 0vw;
   background: #eee;
-  width: 99vw;
+  width: 100vw;
   display: hidden;
 }
 
@@ -82,11 +82,14 @@ body {font-family: Verdana, sans-serif;}
   width: 13.6vw;
   margin: 0 0.05vw;
   text-align: center;
-  height: 11vh;
+  height: 11.23vh;
   font-size:.75vw;
   color: black;
   border: solid black .1vw;
   visibility: hidden;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .days div .active{
@@ -141,7 +144,7 @@ body {font-family: Verdana, sans-serif;}
   align-items: center;
   height: 76%;
   width: 98%;
-  background: orangered;
+  background: orange;
 }
 
 .days div .Byspejderne {
@@ -238,7 +241,7 @@ body {font-family: Verdana, sans-serif;}
   margin: 5px 0 22px 0;
   border: none;
   background: #f1f1f1;
-  color: #757575;
+  color: #222;
 }
 
 .form-container .dato {
@@ -247,7 +250,8 @@ body {font-family: Verdana, sans-serif;}
   margin: 5px 0 22px 0;
   border: none;
   background: #f1f1f1;
-  color: #757575;
+  color: #222;
+  position: absolute;
 }
 
 /* Set a style for the submit/login button */
