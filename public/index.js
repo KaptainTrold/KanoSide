@@ -47,9 +47,68 @@ function setCurrentDate(date, day) {
     document.getElementById("year").innerHTML  = observedYear;
     document.getElementById("month").innerHTML = monthTranslator(observedMonth);
 
+    console.log(detectDeviceType());
     if (detectDeviceType() == 'Mobile') {
-        document.styleSheets[0].cssRules[10].style.margin = "0 0";
+        // .month
+        document.styleSheets[0].cssRules[2].style.width = "100vw";
+
+        // .month ul
+        document.styleSheets[0].cssRules[3].style.padding = ".5vh 0vw";
+
+        // .month ul li
+        document.styleSheets[0].cssRules[4].style.fontSize = "2vw";
+
+        // .info
+        document.styleSheets[0].cssRules[5].style.fontSize = "2vw";
+
+        // .kode
+        //document.styleSheets[0].cssRules[6].style.margin = "0 0";
+
+        // .month prev
+        document.styleSheets[0].cssRules[7].style.fontSize = "13vw";
+
+        // .month next
+        document.styleSheets[0].cssRules[8].style.fontSize = "13vw";
+
+        // .weekdays
+        document.styleSheets[0].cssRules[9].style.width = "100vw";
+        document.styleSheets[0].cssRules[9].style.padding = "0vh 0vw";
+
+        // .weekdays li
+        document.styleSheets[0].cssRules[10].style.margin = "0vh .2vw";
+        document.styleSheets[0].cssRules[10].style.width = "12.4vw";
+
+        // .days
+        document.styleSheets[0].cssRules[11].style.width = "100vw";
+
+        // .days div
         document.styleSheets[0].cssRules[12].style.margin = "0 0";
+        document.styleSheets[0].cssRules[12].style.width = "12.3vw";
+
+        // .days div .active
+        document.styleSheets[0].cssRules[13].style.fontSize = "2vw";
+
+        // .days div .reservation
+        document.styleSheets[0].cssRules[15].style.margin = "0.5% 2%";
+        document.styleSheets[0].cssRules[15].style.width = "92%";
+        document.styleSheets[0].cssRules[16].style.margin = "0.5% 2%";
+        document.styleSheets[0].cssRules[16].style.width = "92%";
+        document.styleSheets[0].cssRules[17].style.margin = "0.5% 2%";
+        document.styleSheets[0].cssRules[17].style.width = "92%";
+        document.styleSheets[0].cssRules[18].style.margin = "0.5% 2%";
+        document.styleSheets[0].cssRules[18].style.width = "92%";
+        document.styleSheets[0].cssRules[19].style.margin = "0.5% 2%";
+        document.styleSheets[0].cssRules[19].style.width = "92%";
+        document.styleSheets[0].cssRules[20].style.margin = "0.5% 2%";
+        document.styleSheets[0].cssRules[20].style.width = "92%";
+        document.styleSheets[0].cssRules[21].style.margin = "0.5% 2%";
+        document.styleSheets[0].cssRules[21].style.width = "92%";
+        document.styleSheets[0].cssRules[22].style.margin = "0.5% 2%";
+        document.styleSheets[0].cssRules[22].style.width = "92%";
+        document.styleSheets[0].cssRules[23].style.margin = "0.5% 2%";
+        document.styleSheets[0].cssRules[23].style.width = "92%";
+        document.styleSheets[0].cssRules[24].style.margin = "0.5% 2%";
+        document.styleSheets[0].cssRules[24].style.width = "92%"
     }
 }
 

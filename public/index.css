@@ -4,7 +4,7 @@ body {font-family: Verdana, sans-serif;}
 
 /* Month header */
 .month {
-  width: 100vw;
+  width: 99vw;
   background: #003366;
   text-align: center;
 }
@@ -17,13 +17,13 @@ body {font-family: Verdana, sans-serif;}
 
 .month ul li {
   color: white;
-  font-size: 1.6vh;
+  font-size: 1vw;
   text-transform: uppercase;
   letter-spacing: .1vh;
 }
 
 .info {
-  font-size: 1vh;
+  font-size: .6vw;
 }
 
 .kode {
@@ -35,7 +35,7 @@ body {font-family: Verdana, sans-serif;}
 .month .prev {
   position: absolute !important;
   float: left;
-  font-size: 9vh;
+  font-size: 6vw;
   top: -1vh;
   left: 1vw;
   cursor: pointer;
@@ -45,7 +45,7 @@ body {font-family: Verdana, sans-serif;}
 .month .next {
   position: absolute !important;
   float: right;
-  font-size: 9vh;
+  font-size: 6vw;
   top: -1vh;
   right: 1vw;
   cursor: pointer;
@@ -55,24 +55,23 @@ body {font-family: Verdana, sans-serif;}
 .weekdays {
   width: 99vw;
   margin: 0;
-  padding: .75vh .5vw;
+  padding: .75vh 0;
   background-color:#ddd;
 }
 
 .weekdays li {
   display: inline-block;
-  width: 12.8vw;
-  margin: 0 0.5vw;
+  width: 13.6vw;
+  margin: 0 0.05vw;
   color: black;
   text-align: center;
-  font-size: 1.5vh;
+  font-size: 1.5vw;
 }
 
 /* Days (1-31) */
 .days {
-  padding: 1vh 0vh;
+  padding: 1vh 0vw;
   background: #eee;
-  padding: 0 .5vw;
   width: 99vw;
   display: hidden;
 }
@@ -80,11 +79,11 @@ body {font-family: Verdana, sans-serif;}
 .days div{
   list-style-type: none;
   display: inline-block;
-  width: 12.5%;
-  margin: 0 0.65vw;
+  width: 13.6vw;
+  margin: 0 0.05vw;
   text-align: center;
-  height: 11.5vh;
-  font-size:1.25vh;
+  height: 11vh;
+  font-size:.75vw;
   color: black;
   border: solid black .1vw;
   visibility: hidden;
@@ -93,17 +92,17 @@ body {font-family: Verdana, sans-serif;}
 .days div .active{
   list-style-type: none;
   display: inline-block;
+  /*DO NOT TOUCH */
   width: 100%;
   text-align: center;
   height: 2vh;
   padding: 0.1vh 0;
-  font-size: 1.5vh;
+  font-size: 0.75vw;
   color: black;
 }
 /* Highlight the "current" day */
 .days div .current {
   background: #003366;
-  /*height: 18%;*/
   color: white !important 
 }
 
